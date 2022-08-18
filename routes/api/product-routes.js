@@ -53,13 +53,6 @@ router.get("/:id", async (req, res) => {
     }
   */
 router.post("/", async (req, res) => {
-  try {
-    const newProduct = await Product.create(req.body);
-    res.status(200).json(newProduct);
-  } catch (err) {
-    res.status(400).json(err);
-  }
-
   Product.create(req.body)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
@@ -85,21 +78,6 @@ router.post("/", async (req, res) => {
 // update product
 // update product data
 router.put("/:id", async (req, res) => {
-  try {
-    const updateProduct = await Product.update(req.body, {
-      where: {
-        id: req.params.id,
-      },
-    });
-    if (!updateProduct[0]) {
-      res.status(404).json({ message: "No product id found" });
-      return;
-    }
-    res.status(200).json(updateProduct);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-
   Product.update(req.body, {
     where: {
       id: req.params.id,
